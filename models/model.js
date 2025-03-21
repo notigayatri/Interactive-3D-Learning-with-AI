@@ -1,13 +1,17 @@
-//A schema defines the structure of the data that will be stored in MongoDB.
-
 const mongoose = require('mongoose');
 
-const modelSchema = new mongoose.Schema({
-    name: { type: String, required: true },
-    description: { type: String },
-    filePath: { type: String } // Optional for future 3D models
+const PartSchema = new mongoose.Schema({
+    name: String, 
+    description: String, // Optional: Can store static part descriptions
 });
 
-const Model = mongoose.model('Model', modelSchema);
+const ModelSchema = new mongoose.Schema({
+    name: { type: String, required: true, unique: true },
+    description: { type: String, required: true },
+    category: { type: String, required: true },
+    subcategory: { type: String },
+    modelPath: String, // Path or model identifier
+    parts: [PartSchema] // Stores parts of the model
+});
 
-module.exports = Model;
+module.exports = mongoose.model('Model', ModelSchema);
