@@ -3,7 +3,7 @@ const router = express.Router();
 const Model = require('../models/Model');
 
 // GET all categories
-router.get('/categories', async (req, res) => {
+router.get('/category', async (req, res) => {
     try {
         const categories = await Model.distinct('category');
         res.status(200).json(categories);
@@ -14,7 +14,7 @@ router.get('/categories', async (req, res) => {
 });
 
 // GET subcategories under a category
-router.get('/categories/:category/subcategories', async (req, res) => {
+router.get('/category/:category/subcategories', async (req, res) => {
     try {
         const { category } = req.params;
         const subcategories = await Model.distinct('subcategory', { category });
@@ -27,7 +27,7 @@ router.get('/categories/:category/subcategories', async (req, res) => {
 });
 
 // GET models under a specific subcategory
-router.get('/categories/:category/:subcategory/models', async (req, res) => {
+router.get('/category/:category/:subcategory/models', async (req, res) => {
     try {
         const { category, subcategory } = req.params;
         const models = await Model.find({ category, subcategory });
@@ -40,7 +40,7 @@ router.get('/categories/:category/:subcategory/models', async (req, res) => {
 });
 
 // GET models by category
-router.get('/categories/:category', async (req, res) => {
+router.get('/category/:category', async (req, res) => {
     try {
         const { category } = req.params;
         const models = await Model.find({ category });
@@ -70,18 +70,6 @@ router.post('/', async (req, res) => {
     }
 });
 
-// GET: Fetch unique subcategories for a given category
-router.get('/:category/subcategories', async (req, res) => {
-    try {
-        const { category } = req.params;
-        const subcategories = await Model.distinct('subcategory', { category });
-
-        res.status(200).json(subcategories);
-    } catch (err) {
-        console.error('Fetch subcategories error:', err);
-        res.status(500).json({ error: 'Failed to fetch subcategories' });
-    }
-});
 
 // 🔍 Search categories & subcategories dynamically
 router.get('/search', async (req, res) => {

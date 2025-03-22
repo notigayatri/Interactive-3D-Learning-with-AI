@@ -24,7 +24,7 @@ const categoryRoutes = require('./routes/categoryRoutes');
 
 app.use('/api/models', modelRoutes);
 app.use('/parts', partRoutes);
-app.use('/api', categoryRoutes);
+app.use('/api/models', categoryRoutes);
 
 // Default route
 app.get('/', (req, res) => {

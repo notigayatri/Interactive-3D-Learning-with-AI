@@ -30,7 +30,7 @@ router.post('/:modelName/parts', async (req, res) => {
 });
 
 // GET: Fetch parts of a model
-router.get('/:modelName/parts', async (req, res) => {
+router.get('/category/:category/:subcategory/:model/parts', async (req, res) => {
     try {
         const { modelName } = req.params;
         const model = await Model.findOne({ name: modelName }).select('parts');
