@@ -23,7 +23,7 @@ const partRoutes = require('./routes/partRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
 
 app.use('/api/models', modelRoutes);
-app.use('/parts', partRoutes);
+app.use('/api/models', partRoutes);
 app.use('/api/models', categoryRoutes);
 
 // Default route

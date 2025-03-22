@@ -32,18 +32,27 @@ router.post('/:modelName/parts', async (req, res) => {
 // GET: Fetch parts of a model
 router.get('/category/:category/:subcategory/:model/parts', async (req, res) => {
     try {
-        const { modelName } = req.params;
-        const model = await Model.findOne({ name: modelName }).select('parts');
+        const { category, subcategory, model } = req.params;
 
-        if (!model || !model.parts.length) {
+        const modelName = decodeURIComponent(model);
+
+        // Find the model by name, category, and subcategory
+        const modelData = await Model.findOne({ 
+            name: modelName, 
+            category, 
+            subcategory 
+        }).select('parts');
+
+        if (!modelData || !modelData.parts || modelData.parts.length === 0) {
             return res.status(404).json({ error: 'No parts found for this model' });
         }
 
-        res.status(200).json({ parts: model.parts });
+        res.status(200).json({ parts: modelData.parts });
     } catch (err) {
         console.error('Error fetching parts:', err);
         res.status(500).json({ error: 'Failed to fetch parts' });
     }
 });
+
 
 module.exports = router;
