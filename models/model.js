@@ -1,17 +1,9 @@
 const mongoose = require('mongoose');
 
-const PartSchema = new mongoose.Schema({
-    name: String, 
-    description: String, // Optional: Can store static part descriptions
-});
-
 const ModelSchema = new mongoose.Schema({
-    name: { type: String, required: true, unique: true },
-    description: { type: String, required: true },
-    category: { type: String, required: true },
-    subcategory: { type: String, required: true },
-    modelPath: String, // Path or model identifier
-    parts: [PartSchema] // Stores parts of the model
+    name: { type: String, required: true, unique: true }, // Model name (must be unique)
+    gcsUrl: { type: String, required: true }  // Google Cloud Storage URL of the model   
 });
 
-module.exports = mongoose.model('Model', ModelSchema);
+const Model = mongoose.model('Model', ModelSchema);
+module.exports = Model;

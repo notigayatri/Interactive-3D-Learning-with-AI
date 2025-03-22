@@ -19,12 +19,27 @@ connectDB();
 
 // Routes
 const modelRoutes = require('./routes/modelRoutes');
-const partRoutes = require('./routes/partRoutes');
-const categoryRoutes = require('./routes/categoryRoutes');
+const { generateGeminiResponse } = require('./services/geminiService');
 
 app.use('/api/models', modelRoutes);
-app.use('/api/models', partRoutes);
-app.use('/api/models', categoryRoutes);
+
+// API Route: Generate AI Explanation for 3D Models
+app.post('/api/gemini/generate', async (req, res) => {
+    try {
+        const { prompt } = req.body;
+
+        if (!prompt) {
+            return res.status(400).json({ error: 'Prompt is required' });
+        }
+
+        const generatedText = await generateGeminiResponse(prompt);
+
+        res.status(200).json({ generatedText });
+    } catch (err) {
+        console.error('Gemini API Error:', err.message);
+        res.status(500).json({ error: 'Failed to generate content', details: err.message });
+    }
+});
 
 // Default route
 app.get('/', (req, res) => {
