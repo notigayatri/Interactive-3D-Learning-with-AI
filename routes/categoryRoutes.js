@@ -83,4 +83,28 @@ router.get('/:category/subcategories', async (req, res) => {
     }
 });
 
+// 🔍 Search categories & subcategories dynamically
+router.get('/search', async (req, res) => {
+    try {
+        const { query } = req.query;  // Get search text from query parameters
+
+        if (!query) {
+            return res.status(400).json({ error: 'Query parameter is required' });
+        }
+
+        // Search in categories and subcategories (case-insensitive)
+        const results = await Model.find({
+            $or: [
+                { category: { $regex: query, $options: 'i' } },
+                { subcategory: { $regex: query, $options: 'i' } }
+            ]
+        }).select('name category subcategory');
+
+        res.status(200).json(results);
+    } catch (err) {
+        console.error('Search error:', err);
+        res.status(500).json({ error: 'Failed to search categories/subcategories' });
+    }
+});
+
 module.exports = router;

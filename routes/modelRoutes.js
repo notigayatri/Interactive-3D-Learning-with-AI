@@ -6,13 +6,13 @@ const { generateGeminiResponse } = require('../services/geminiService');
 // POST: Create a new 3D model
 router.post('/', async (req, res) => {
     try {
-        const { name, description, category, subcategory, modelPath } = req.body;
+        const { name, description, category, subcategory, modelPath, parts } = req.body;
         if (!name || !description || !category) {
             return res.status(400).json({ error: 'Name, description, and category are required' });
         }
 
         // Ensure subcategory is stored in the model
-        const model = new Model({ name, description, category, subcategory, modelPath });
+        const model = new Model({ name, description, category, subcategory, modelPath, parts});
         await model.save();
 
         res.status(201).json(model);

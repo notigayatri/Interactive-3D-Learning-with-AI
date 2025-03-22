@@ -9,7 +9,7 @@ const ModelSchema = new mongoose.Schema({
     name: { type: String, required: true, unique: true },
     description: { type: String, required: true },
     category: { type: String, required: true },
-    subcategory: { type: String },
+    subcategory: { type: String, required: true },
     modelPath: String, // Path or model identifier
     parts: [PartSchema] // Stores parts of the model
 });
